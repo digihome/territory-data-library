@@ -1,0 +1,42 @@
+<options>
+  <simple_options>
+  </simple_options>
+
+  <bypass_conversion_types>
+  </bypass_conversion_types>
+
+  <project_groups>
+  </project_groups>
+
+  <dotnetcore_snippet_and_folder_assemblies>
+  </dotnetcore_snippet_and_folder_assemblies>
+
+  <dotnetframework_snippet_and_folder_assemblies>
+  </dotnetframework_snippet_and_folder_assemblies>
+
+  <dotnetcore_project_sdks>
+  </dotnetcore_project_sdks>
+
+  <dotnetframework_project_sdks>
+  </dotnetframework_project_sdks>
+
+  <assumed_imported_namespaces>
+  </assumed_imported_namespaces>
+
+  <string_replacements>
+    <replacement>
+      <find>module.territorydata</find>
+      <replace>pl.digihome.module.territorydata</replace>
+      <active>true</active>
+      <regex>false</regex>
+      <match_case>false</match_case>
+      <match_in_string_literals>false</match_in_string_literals>
+      <match_in_comments>false</match_in_comments>
+      <match_whole_word>false</match_whole_word>
+      <post_conversion>true</post_conversion>
+    </replacement>
+  </string_replacements>
+
+  <type_replacements>
+  </type_replacements>
+</options>
