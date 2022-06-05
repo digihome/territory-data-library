@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module.TerritoryData.Library.Models
+namespace Module.TerritoryData.Library.Models.Hierarchy
 {
-    public class Zone1 : ZoneBase
+    public class Level1Division : DivisionBase
     {
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Module.TerritoryData.Library.Interfaces;
 using Module.TerritoryData.Library.Models;
+using Module.TerritoryData.Library.Models.Hierarchy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Module.TerritoryData.Library
 {
     internal class TerritoryDataRepository : ITerritoryDataRepository
     {
-        public Address Address(string addressCode)
+        public Address GetAddress(string addressCode)
         {
             throw new NotImplementedException();
         }
@@ -43,32 +44,32 @@ namespace Module.TerritoryData.Library
             return countryList;
         }
 
-        public Zone1 GetZone1(string zone1Code)
+        public Level1Division GetLevel1Division(string zone1Code)
         {
             throw new NotImplementedException();
         }
 
-        public Zone1List GetZone1List(SearchParams searchParams)
+        public Level1DivisionList GetLevel1DivisionList(SearchParams searchParams)
         {
             throw new NotImplementedException();
         }
 
-        public Zone2 GetZone2(string zone2Code)
+        public Level2Division GetLevel2Division(string zone2Code)
         {
             throw new NotImplementedException();
         }
 
-        public Zone2List GetZone2List(SearchParams searchParams)
+        public Level2DivisionList GetLevel2DivisionList(SearchParams searchParams)
         {
             throw new NotImplementedException();
         }
 
-        public Zone3 GetZone3(string zone3Code)
+        public Level3Division GetLevel3Division(string zone3Code)
         {
             throw new NotImplementedException();
         }
 
-        public Zone3List GetZone3List(SearchParams searchParams)
+        public Level3DivisionList GetLevel3DivisionList(SearchParams searchParams)
         {
             throw new NotImplementedException();
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Module.TerritoryData.Library.Models
 {
-    public class Zone2List : List<Zone2>
+    public class Level3DivisionList : List<Level3Division>
     {
     }
 }

@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Module.TerritoryData.Library.Models;
+using Module.TerritoryData.Library.Models.Hierarchy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Module.TerritoryData.Library.Models;
 
 namespace Module.TerritoryData.Library.Interfaces
 {
@@ -11,15 +12,15 @@ namespace Module.TerritoryData.Library.Interfaces
     {
         Country GetCountry(string countryCode);
         CountryList GetCountryList();
-        Zone1 GetZone1(string zone1Code);
-        Zone1List GetZone1List(SearchParams searchParams);
-        Zone2 GetZone2(string zone2Code);
-        Zone2List GetZone2List(SearchParams searchParams);
-        Zone3 GetZone3(string zone3Code);
-        Zone3List GetZone3List(SearchParams searchParams);
+        Level1Division GetLevel1Division(string zone1Code);
+        Level1DivisionList GetLevel1DivisionList(SearchParams searchParams);
+        Level2Division GetLevel2Division(string zone2Code);
+        Level2DivisionList GetLevel2DivisionList(SearchParams searchParams);
+        Level3Division GetLevel3Division(string zone3Code);
+        Level3DivisionList GetLevel3DivisionList(SearchParams searchParams);
         City GetCity(string cityCode);
         CityList GetCityList(SearchParams searchParams);
-        Address Address(string addressCode);
+        Address GetAddress(string addressCode);
         AddressList GetAddressList(SearchParams searchParams);
 
     }
