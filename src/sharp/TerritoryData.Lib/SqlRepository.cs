@@ -1,22 +1,24 @@
-﻿using Module.TerritoryData.Library.Interfaces;
-using Module.TerritoryData.Library.Models;
-using Module.TerritoryData.Library.Models.Hierarchy;
+﻿using Microsoft.Data.SqlClient;
+using TerritoryData.Library.Interface;
 using System;
+using TerritoryData.Library.Entity;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Module.TerritoryData.Library
+namespace TerritoryData.Library
 {
-    internal class TerritoryDataRepository : ITerritoryDataRepository
+    public class SqlRepository : ITerritoryDataRepository
     {
+        private readonly System.Data.Common.DbConnection dbConnection;
+        public SqlRepository(SqlConnection dbConnection)
+        {
+            this.dbConnection = dbConnection;
+        }
         public Address GetAddress(string addressCode)
         {
             throw new NotImplementedException();
         }
 
-        public AddressList GetAddressList(SearchParams searchParams)
+        public List<Address> GetAddressList(SearchParams searchParams)
         {
             throw new NotImplementedException();
         }
@@ -26,50 +28,52 @@ namespace Module.TerritoryData.Library
             throw new NotImplementedException();
         }
 
-        public CityList GetCityList(SearchParams searchParams)
+        public List<City> GetCityList(SearchParams searchParams)
         {
             throw new NotImplementedException();
         }
 
         public Country GetCountry(string countryCode)
         {
+            if (string.IsNullOrWhiteSpace(countryCode))
+                return null;
             throw new NotImplementedException();
         }
 
-        public CountryList GetCountryList()
+        public List<Country> GetCountryList()
         {
-            CountryList countryList = new CountryList();
+            List<Country> countryList = new List<Country>();
             countryList.Add(new Country() { Id = 1, Code = "pl", Name = "Poland" });
             countryList.Add(new Country() { Id = 1, Code = "de", Name = "Germany" });
             return countryList;
         }
 
-        public Level1Division GetLevel1Division(string zone1Code)
+        public Level1Division GetLevel1Division(string level1DivisionCode)
         {
             throw new NotImplementedException();
         }
 
-        public Level1DivisionList GetLevel1DivisionList(SearchParams searchParams)
+        public List<Level1Division> GetLevel1DivisionList(SearchParams searchParams)
         {
             throw new NotImplementedException();
         }
 
-        public Level2Division GetLevel2Division(string zone2Code)
+        public Level2Division GetLevel2Division(string level2DivisionCode)
         {
             throw new NotImplementedException();
         }
 
-        public Level2DivisionList GetLevel2DivisionList(SearchParams searchParams)
+        public List<Level2Division> GetLevel2DivisionList(SearchParams searchParams)
         {
             throw new NotImplementedException();
         }
 
-        public Level3Division GetLevel3Division(string zone3Code)
+        public Level3Division GetLevel3Division(string level3DivisionCode)
         {
             throw new NotImplementedException();
         }
 
-        public Level3DivisionList GetLevel3DivisionList(SearchParams searchParams)
+        public List<Level3Division> GetLevel3DivisionList(SearchParams searchParams)
         {
             throw new NotImplementedException();
         }
