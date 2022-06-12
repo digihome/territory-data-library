@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TerritoryData.Library.Entity
+namespace TerritoryData.Lib.Entity
 {
     public class Level3Division : DivisionBase
     {

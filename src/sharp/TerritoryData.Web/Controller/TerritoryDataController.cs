@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Module.TerritoryData.Web.Model;
-using TerritoryData.Library.Interface;
+using TerritoryData.Lib.Interface;
 
 namespace Module.TerritoryData.Web.Controller
 {

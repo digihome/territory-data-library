@@ -1,15 +1,15 @@
 ﻿using Microsoft.Data.SqlClient;
-using TerritoryData.Library.Interface;
+using TerritoryData.Lib.Interface;
 using System;
-using TerritoryData.Library.Entity;
+using TerritoryData.Lib.Entity;
 using System.Collections.Generic;
 
-namespace TerritoryData.Library
+namespace TerritoryData.Lib
 {
-    public class SqlRepository : ITerritoryDataRepository
+    public class SqlStoreRepository : ITerritoryDataRepository
     {
         private readonly System.Data.Common.DbConnection dbConnection;
-        public SqlRepository(SqlConnection dbConnection)
+        public SqlStoreRepository(SqlConnection dbConnection)
         {
             this.dbConnection = dbConnection;
         }
@@ -43,8 +43,8 @@ namespace TerritoryData.Library
         public List<Country> GetCountryList()
         {
             List<Country> countryList = new List<Country>();
-            countryList.Add(new Country() { Id = 1, Code = "pl", Name = "Poland" });
-            countryList.Add(new Country() { Id = 1, Code = "de", Name = "Germany" });
+            countryList.Add(new Country() { Id = "1", Code = "pl", Name = "Poland" });
+            countryList.Add(new Country() { Id = "2", Code = "de", Name = "Germany" });
             return countryList;
         }
 
@@ -53,7 +53,7 @@ namespace TerritoryData.Library
             throw new NotImplementedException();
         }
 
-        public List<Level1Division> GetLevel1DivisionList(SearchParams searchParams)
+        public List<Level1Division> GetLevel1DivisionList(string countryCode)
         {
             throw new NotImplementedException();
         }
@@ -63,7 +63,7 @@ namespace TerritoryData.Library
             throw new NotImplementedException();
         }
 
-        public List<Level2Division> GetLevel2DivisionList(SearchParams searchParams)
+        public List<Level2Division> GetLevel2DivisionList(string level1DivisionCode)
         {
             throw new NotImplementedException();
         }
@@ -73,7 +73,7 @@ namespace TerritoryData.Library
             throw new NotImplementedException();
         }
 
-        public List<Level3Division> GetLevel3DivisionList(SearchParams searchParams)
+        public List<Level3Division> GetLevel3DivisionList(string level2DivisionCode)
         {
             throw new NotImplementedException();
         }

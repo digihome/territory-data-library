@@ -1,18 +1,18 @@
 using FakeItEasy;
 using NUnit.Framework;
 using Shouldly;
-using TerritoryData.Library;
+using TerritoryData.Lib;
 
 namespace TerritoryData.Tests.Lib
 {
-    public class Tests
+    public class SqlStoreRepositoryTests
     {
-        private SqlRepository _repository;
+        private SqlStoreRepository _repository;
 
         [SetUp]
         public void Setup()
         {
-            _repository = A.Fake<SqlRepository>();
+            _repository = A.Fake<SqlStoreRepository>();
         }
 
         [Test]

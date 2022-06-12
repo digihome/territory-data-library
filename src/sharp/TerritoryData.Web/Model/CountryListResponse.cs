@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TerritoryData.Library.Entity;
+using TerritoryData.Lib.Entity;
 
 namespace Module.TerritoryData.Web.Model
 {

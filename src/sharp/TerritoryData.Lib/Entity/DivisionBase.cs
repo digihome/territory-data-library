@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TerritoryData.Library.Entity
+namespace TerritoryData.Lib.Entity
 {
     public class DivisionBase
     {
-        public long Id { get; set; }
+        public string Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
     }
