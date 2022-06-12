@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module.TerritoryData.Lib.GeoPortal
+namespace Module.TerritoryData.Lib.Entity.GeoPortal
 {
     public class JednAdm
     {

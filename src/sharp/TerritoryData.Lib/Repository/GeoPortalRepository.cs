@@ -1,21 +1,19 @@
-﻿using Module.TerritoryData.Lib.GeoPortal;
+﻿using Module.TerritoryData.Lib.Entity.GeoPortal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using TerritoryData.Lib.Entity;
 using TerritoryData.Lib.Interface;
 
-namespace TerritoryData.Lib
+namespace TerritoryData.Lib.Repository
 {
-    public class GeoPortalStoreRepository : ITerritoryDataRepository
+    public class GeoPortalRepository : ITerritoryDataRepository
     {
         private readonly Energy.Base.Url baseUrl = new Energy.Base.Url($"http://mapy.geoportal.gov.pl/wss/service/SLN/guest/sln");
-
+        private readonly string geoNamespace = "PL.PZGIK.200";
         public Address GetAddress(string addressCode)
         {
             throw new NotImplementedException();
@@ -110,7 +108,7 @@ namespace TerritoryData.Lib
             var level1Division = GetLevel1Division(level1DivisionCode);
             if (level1Division == null)
                 return null;
-            string queryUrl = Energy.Base.Url.Make(baseUrl.ToString(), null, null, null, Energy.Base.Url.Combine(baseUrl.Path, "pow", "PL.PZGIK.200", level1Division.Id , "skr.json"), null, null);
+            string queryUrl = Energy.Base.Url.Make(baseUrl.ToString(), null, null, null, Energy.Base.Url.Combine(baseUrl.Path, "pow", geoNamespace, level1Division.Id , "skr.json"), null, null);
             var response = Energy.Core.Web.Get(queryUrl);
             if (response == null)
                 return null;
@@ -147,7 +145,7 @@ namespace TerritoryData.Lib
             var level2Division = GetLevel2Division(level2DivisionCode);
             if (level2Division == null)
                 return null;
-            string queryUrl = Energy.Base.Url.Make(baseUrl.ToString(), null, null, null, Energy.Base.Url.Combine(baseUrl.Path, "gmi", "PL.PZGIK.200", level2Division.Id, "skr.json"), null, null);
+            string queryUrl = Energy.Base.Url.Make(baseUrl.ToString(), null, null, null, Energy.Base.Url.Combine(baseUrl.Path, "gmi", geoNamespace, level2Division.Id, "skr.json"), null, null);
             var response = Energy.Core.Web.Get(queryUrl);
             if (response == null)
                 return null;

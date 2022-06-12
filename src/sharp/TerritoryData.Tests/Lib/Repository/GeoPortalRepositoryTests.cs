@@ -3,17 +3,18 @@ using NUnit.Framework;
 using Shouldly;
 using TerritoryData.Lib;
 using TerritoryData.Lib.Entity;
+using TerritoryData.Lib.Repository;
 
-namespace TerritoryData.Tests.Lib
+namespace TerritoryData.Tests.Lib.Repository
 {
-    public class GeoPortalStoreRepositoryTests
+    public class GeoPortalRepositoryTests
     {
-        private GeoPortalStoreRepository _repository;
+        private GeoPortalRepository _repository;
 
         [SetUp]
         public void Setup()
         {
-            _repository = A.Fake<GeoPortalStoreRepository>();
+            _repository = A.Fake<GeoPortalRepository>();
         }
 
         [Test]
@@ -110,7 +111,7 @@ namespace TerritoryData.Tests.Lib
             var divisionList = _repository.GetLevel3DivisionList(level2DivisionCode);
             divisionList.Count.ShouldBe(expectedResult);
         }
-        
+
 
         private readonly static object[] Level3DivisionSource = new object[]
         {

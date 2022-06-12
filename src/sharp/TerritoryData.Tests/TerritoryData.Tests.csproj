@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TerritoryData.Lib\Module.TerritoryData.Lib.csproj" />
+    <ProjectReference Include="..\TerritoryData.Lib\TerritoryData.Lib.csproj" />
   </ItemGroup>
 
 </Project>

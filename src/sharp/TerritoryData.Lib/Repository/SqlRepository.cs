@@ -4,12 +4,12 @@ using System;
 using TerritoryData.Lib.Entity;
 using System.Collections.Generic;
 
-namespace TerritoryData.Lib
+namespace Module.TerritoryData.Lib.Repository
 {
-    public class SqlStoreRepository : ITerritoryDataRepository
+    public class SqlRepository : ITerritoryDataRepository
     {
         private readonly System.Data.Common.DbConnection dbConnection;
-        public SqlStoreRepository(SqlConnection dbConnection)
+        public SqlRepository(SqlConnection dbConnection)
         {
             this.dbConnection = dbConnection;
         }
