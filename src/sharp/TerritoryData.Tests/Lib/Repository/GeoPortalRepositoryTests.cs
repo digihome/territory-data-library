@@ -1,6 +1,7 @@
 ﻿using FakeItEasy;
 using NUnit.Framework;
 using Shouldly;
+using System.Collections.Generic;
 using TerritoryData.Lib;
 using TerritoryData.Lib.Entity;
 using TerritoryData.Lib.Repository;
@@ -17,6 +18,36 @@ namespace TerritoryData.Tests.Lib.Repository
             _repository = A.Fake<GeoPortalRepository>();
         }
 
+        private readonly static object[] CountryListSource = new object[]
+        {
+            new TestCaseParams() { Arg = null, ExpectedResult = 2 },
+        };
+
+        [Test]
+        [TestCaseSource(nameof(CountryListSource))]
+        public void GetCountryList_Should_Return_Correct_Elements_Counts(object testCase)
+        {
+            int expectedResult = (int)((TestCaseParams)testCase).ExpectedResult;
+            var countryList = _repository.GetCountryList();
+            countryList.Count.ShouldBe(expectedResult);
+        }
+
+        private readonly static object[] CountrySource = new object[]
+        {
+            new TestCaseParams() { Arg = "pl", ExpectedResult = "Poland" },
+            new TestCaseParams() { Arg = "PL", ExpectedResult = "Poland" },
+        };
+
+        [Test]
+        [TestCaseSource(nameof(CountrySource))]
+        public void GetCountry_Should_Return_Correct_Value(object testCase)
+        {
+            string countryCode = (string)((TestCaseParams)testCase).Arg;
+            string expectedResult = (string)((TestCaseParams)testCase).ExpectedResult;
+            var country = _repository.GetCountry(countryCode);
+            country.Name.ShouldBe(expectedResult);
+        }
+
         [Test]
         [TestCase(null)]
         [TestCase("")]
@@ -26,7 +57,6 @@ namespace TerritoryData.Tests.Lib.Repository
             var country = _repository.GetCountry(countryCode);
             country.ShouldBe(null);
         }
-
 
         private readonly static object[] Level1DivisionListSource = new object[]
         {

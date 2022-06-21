@@ -38,14 +38,19 @@ namespace TerritoryData.Lib.Repository
         {
             if (string.IsNullOrWhiteSpace(countryCode))
                 return null;
-            throw new NotImplementedException();
+            if (countryCode.Length != 2)
+                throw new Exception("Invalid countryCode length.");
+            var countryList = GetCountryList();
+            if (countryList == null)
+                return null;
+            return countryList.Where(d => d.Code == countryCode.ToUpper()).FirstOrDefault();
         }
 
         public List<Country> GetCountryList()
         {
             List<Country> countryList = new List<Country>();
-            countryList.Add(new Country() { Id = "1", Code = "pl", Name = "Poland" });
-            countryList.Add(new Country() { Id = "2", Code = "de", Name = "Germany" });
+            countryList.Add(new Country() { Id = "1", Code = "PL", Name = "Poland" });
+            countryList.Add(new Country() { Id = "2", Code = "DE", Name = "Germany" });
             return countryList;
         }
 
