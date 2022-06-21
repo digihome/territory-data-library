@@ -1,11 +1,11 @@
-﻿using Module.TerritoryData.Lib.Entity.GeoPortal;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using TerritoryData.Lib.Entity;
+using TerritoryData.Lib.Entity.GeoPortal;
 using TerritoryData.Lib.Interface;
 
 namespace TerritoryData.Lib.Repository
@@ -14,6 +14,10 @@ namespace TerritoryData.Lib.Repository
     {
         private readonly Energy.Base.Url baseUrl = new Energy.Base.Url($"http://mapy.geoportal.gov.pl/wss/service/SLN/guest/sln");
         private readonly string geoNamespace = "PL.PZGIK.200";
+
+        // ulice
+        // http://mapy.geoportal.gov.pl/wss/service/SLN/guest/sln/adr/ul/PL.PZGIK.200/5ecae524-66c9-465d-8677-29e5ab0744a8/skr.json
+
         public Address GetAddress(string addressCode)
         {
             throw new NotImplementedException();
@@ -21,17 +25,45 @@ namespace TerritoryData.Lib.Repository
 
         public List<Address> GetAddressList(SearchParams searchParams)
         {
+            // http://mapy.geoportal.gov.pl/wss/service/SLN/guest/sln/adr/miejsc/PL.PZGIK.200/4c52f220-87d7-41e3-ae03-6a25f1b20e00/skr.json
             throw new NotImplementedException();
         }
 
-        public City GetCity(string cityCode)
+        public City GetCity(string level3DivisionCode, string cityCode)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(cityCode))
+                return null;
+            //TODO: what is cityCode length
+            if (cityCode.Length != 7)
+                throw new Exception("Invalid cityCode length.");
+            var cityList = GetCityList(level3DivisionCode);
+            if (cityList == null)
+                return null;
+            return cityList.Where(d => d.Code == cityCode).FirstOrDefault();
         }
 
-        public List<City> GetCityList(SearchParams searchParams)
-        { 
-            throw new NotImplementedException();
+        public List<City> GetCityList(string level3DivisionCode)
+        {
+            if (string.IsNullOrWhiteSpace(level3DivisionCode))
+                return null;
+            if (level3DivisionCode.Length != 9)
+                throw new Exception("Invalid level3DivisionCode length.");
+            string countryCode = level3DivisionCode.Substring(0, 2);
+            // For foreign countries return empty list
+            if (countryCode.ToUpper() != "PL")
+                return new List<City>();
+            var level3Division = GetLevel3Division(level3DivisionCode);
+            if (level3Division == null)
+                return null;
+            string queryUrl = Energy.Base.Url.Make(baseUrl.ToString(), null, null, null, Energy.Base.Url.Combine(baseUrl.Path, "miejsc", geoNamespace, level3Division.Id, "skr.json"), null, null);
+            var response = Energy.Core.Web.Get(queryUrl);
+            if (response == null)
+                return null;
+            if (response.StatusCode != (int)HttpStatusCode.OK)
+                return null;
+            JObject responseJson = JsonConvert.DeserializeObject<JObject>(response.Body);
+            var cityList = responseJson.SelectToken("miejscowosci").Children().Select(t => t.SelectToken("miejscowosc").ToObject<Miejscowosc>()).ToList();
+            return cityList.Select(t => new City() { Id = t.miejscIIPId, Code = t.miejscIdTeryt, Name = t.miejscNazwa }).ToList();
         }
 
         public Country GetCountry(string countryCode)
@@ -159,6 +191,16 @@ namespace TerritoryData.Lib.Repository
             JObject responseJson = JsonConvert.DeserializeObject<JObject>(response.Body);
             var jednAdmList = responseJson.SelectToken("jednAdms").Children().Select(t => t.SelectToken("jednAdm").ToObject<JednAdm>()).ToList();
             return jednAdmList.Select(t => new Level3Division() { Id = t.gmIIPId, Code = countryCode + t.gmIdTeryt, Name = t.gmNazwa }).ToList();
+        }
+
+        public Street GetStreet(string streetCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Street> GetStreetList(SearchParams searchParams)
+        {
+            throw new NotImplementedException();
         }
     }
 }

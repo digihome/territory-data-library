@@ -13,8 +13,11 @@ namespace TerritoryData.Lib.Interface
         List<Level2Division> GetLevel2DivisionList(string level1DivisionCode);
         Level3Division GetLevel3Division(string level3DivisionCode);
         List<Level3Division> GetLevel3DivisionList(string level2DivisionCode);
-        City GetCity(string cityCode);
-        List<City> GetCityList(SearchParams searchParams);
+        City GetCity(string level3DivisionCode, string cityCode);
+        List<City> GetCityList(string level3DivisionCode);
+        Street GetStreet(string streetCode);
+        List<Street> GetStreetList(SearchParams searchParams);
+
         Address GetAddress(string addressCode);
         List<Address> GetAddressList(SearchParams searchParams);
 

@@ -160,5 +160,22 @@ namespace TerritoryData.Tests.Lib.Repository
             division.Name.ShouldBe(expectedResult);
         }
 
+        private readonly static object[] CityListSource = new object[]
+        {
+            new TestCaseParams() { Arg = "PL0201011", ExpectedResult = 2 },
+            new TestCaseParams() { Arg = "pl0201011", ExpectedResult = 2 },
+            new TestCaseParams() { Arg = "de0000000", ExpectedResult = 0 }
+        };
+
+        [Test]
+        [TestCaseSource(nameof(CityListSource))]
+        public void GetCityList_Should_Return_Correct_Elements_Counts(object testCase)
+        {
+            string level3DivisionCode = (string)((TestCaseParams)testCase).Arg;
+            int expectedResult = (int)((TestCaseParams)testCase).ExpectedResult;
+            var cityList = _repository.GetCityList(level3DivisionCode);
+            cityList.Count.ShouldBe(expectedResult);
+        }
+
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TerritoryData.Lib.Entity
 {
-    public class Address
+    public class Street
     {
         public string Id { get; set; }
         public string Code { get; set; }

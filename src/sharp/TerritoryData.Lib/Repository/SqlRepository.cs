@@ -23,12 +23,17 @@ namespace Module.TerritoryData.Lib.Repository
             throw new NotImplementedException();
         }
 
-        public City GetCity(string cityCode)
+        public City GetCity(string level3DivisionCode, string cityCode)
         {
             throw new NotImplementedException();
         }
 
         public List<City> GetCityList(SearchParams searchParams)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<City> GetCityList(string level3DivisionCode)
         {
             throw new NotImplementedException();
         }
@@ -74,6 +79,16 @@ namespace Module.TerritoryData.Lib.Repository
         }
 
         public List<Level3Division> GetLevel3DivisionList(string level2DivisionCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Street GetStreet(string streetCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Street> GetStreetList(SearchParams searchParams)
         {
             throw new NotImplementedException();
         }
