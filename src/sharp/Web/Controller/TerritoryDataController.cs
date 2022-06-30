@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Module.TerritoryData.Web.Model;
-using TerritoryData.Lib.Repository;
-using System.Collections;
-using TerritoryData.Lib.Repository.Interface;
+using TerritoryData.Lib.Web.Interface;
+using TerritoryData.Lib.Web.Model;
+using System.Linq;
+using TerritoryData.Lib.Web.Entity;
+using TerritoryData.Lib.DB.Interface;
 
 namespace Module.TerritoryData.Web.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TerritoryDataController : ControllerBase
+    public class TerritoryDataController : ControllerBase, ITerritoryDataController
     {
         private readonly ITerritoryDataRepository territoryDataRepository;
         public TerritoryDataController(ITerritoryDataRepository territoryDataRepository)
@@ -23,7 +24,13 @@ namespace Module.TerritoryData.Web.Controller
             CountryListResponse response = new CountryListResponse();
             try
             {
-                response.Countries = territoryDataRepository.GetCountryList();
+                response.Countries = territoryDataRepository.GetCountryList()
+                    .Select(c => new Country()
+                    {
+                        Id = c.Id,
+                        Code = c.Code,
+                        Name = c.Name
+                    }).ToList();
             }
             finally
             {

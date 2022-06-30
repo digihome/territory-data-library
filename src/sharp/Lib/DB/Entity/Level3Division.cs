@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TerritoryData.Lib.Entity.DB
+namespace TerritoryData.Lib.DB.Entity
 {
-    public class Level1Division : DivisionBase
+    public class Level3Division : DivisionBase
     {
     }
 }

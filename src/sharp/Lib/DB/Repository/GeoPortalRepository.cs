@@ -4,65 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using TerritoryData.Lib.Entity.DB;
-using TerritoryData.Lib.Repository.Interface;
+using TerritoryData.Lib.DB.Entity;
+using TerritoryData.Lib.Entity.GeoPortal;
+using TerritoryData.Lib.Web.Client;
 
-namespace TerritoryData.Lib.Repository
+namespace TerritoryData.Lib.DB.Repository
 {
-    public class GeoPortalRepository : ITerritoryDataRepository
+    public class GeoPortalRepository : Interface.ITerritoryDataRepository
     {
-        private readonly Energy.Base.Url baseUrl = new Energy.Base.Url($"http://mapy.geoportal.gov.pl/wss/service/SLN/guest/sln");
-        private readonly string geoNamespace = "PL.PZGIK.200";
+        private readonly GeoPortalClient geoPortalClient;
 
-        // ulice
-        // http://mapy.geoportal.gov.pl/wss/service/SLN/guest/sln/adr/ul/PL.PZGIK.200/5ecae524-66c9-465d-8677-29e5ab0744a8/skr.json
-
-        public Address GetAddress(string addressCode)
+        public GeoPortalRepository(GeoPortalClient geoPortalClient)
         {
-            throw new NotImplementedException();
-        }
-
-        public List<Address> GetAddressList(SearchParams searchParams)
-        {
-            // http://mapy.geoportal.gov.pl/wss/service/SLN/guest/sln/adr/miejsc/PL.PZGIK.200/4c52f220-87d7-41e3-ae03-6a25f1b20e00/skr.json
-            throw new NotImplementedException();
-        }
-
-        public City GetCity(string level3DivisionCode, string cityCode)
-        {
-            if (string.IsNullOrWhiteSpace(cityCode))
-                return null;
-            //TODO: what is cityCode length
-            if (cityCode.Length != 7)
-                throw new Exception("Invalid cityCode length.");
-            var cityList = GetCityList(level3DivisionCode);
-            if (cityList == null)
-                return null;
-            return cityList.Where(d => d.Code == cityCode).FirstOrDefault();
-        }
-
-        public List<City> GetCityList(string level3DivisionCode)
-        {
-            if (string.IsNullOrWhiteSpace(level3DivisionCode))
-                return null;
-            if (level3DivisionCode.Length != 9)
-                throw new Exception("Invalid level3DivisionCode length.");
-            string countryCode = level3DivisionCode.Substring(0, 2);
-            // For foreign countries return empty list
-            if (countryCode.ToUpper() != "PL")
-                return new List<City>();
-            var level3Division = GetLevel3Division(level3DivisionCode);
-            if (level3Division == null)
-                return null;
-            string queryUrl = Energy.Base.Url.Make(baseUrl.ToString(), null, null, null, Energy.Base.Url.Combine(baseUrl.Path, "miejsc", geoNamespace, level3Division.Id, "skr.json"), null, null);
-            var response = Energy.Core.Web.Get(queryUrl);
-            if (response == null)
-                return null;
-            if (response.StatusCode != (int)HttpStatusCode.OK)
-                return null;
-            JObject responseJson = JsonConvert.DeserializeObject<JObject>(response.Body);
-            var cityList = responseJson.SelectToken("miejscowosci").Children().Select(t => t.SelectToken("miejscowosc").ToObject<Entity.GeoPortal.Miejscowosc>()).ToList();
-            return cityList.Select(t => new City() { Id = t.miejscIIPId, Code = t.miejscIdTeryt, Name = t.miejscNazwa }).ToList();
+            this.geoPortalClient = geoPortalClient;
         }
 
         public Country GetCountry(string countryCode)
@@ -76,7 +30,6 @@ namespace TerritoryData.Lib.Repository
                 return null;
             return countryList.Where(d => d.Code == countryCode.ToUpper()).FirstOrDefault();
         }
-
         public List<Country> GetCountryList()
         {
             List<Country> countryList = new List<Country>();
@@ -107,14 +60,14 @@ namespace TerritoryData.Lib.Repository
             // For foreign countries return empty list
             if (countryCode.ToUpper() != "PL")
                 return new List<Level1Division>();
-            string queryUrl = Energy.Base.Url.Make(baseUrl.ToString(), null, null, null, Energy.Base.Url.Combine(baseUrl.Path, "woj.json"), null, null);
+            string queryUrl = Energy.Base.Url.Make(geoPortalClient.BaseUrl.ToString(), null, null, null, Energy.Base.Url.Combine(geoPortalClient.BaseUrl.Path, "woj.json"), null, null);
             var response = Energy.Core.Web.Get(queryUrl);
             if (response == null)
                 return null;
             if (response.StatusCode != (int)HttpStatusCode.OK)
                 return null;
             JObject responseJson = JsonConvert.DeserializeObject<JObject>(response.Body);
-            var jednAdmList = responseJson.SelectToken("jednAdms").Children().Select(t => t.SelectToken("jednAdm").ToObject<Entity.GeoPortal.JednAdm >()).ToList();
+            var jednAdmList = responseJson.SelectToken("jednAdms").Children().Select(t => t.SelectToken("jednAdm").ToObject<JednAdm>()).ToList();
             return jednAdmList.Select(t => new Level1Division() { Id = t.wojIIPId, Code = countryCode + t.wojIdTeryt, Name = t.wojNazwa }).ToList();
         }
 
@@ -144,14 +97,14 @@ namespace TerritoryData.Lib.Repository
             var level1Division = GetLevel1Division(level1DivisionCode);
             if (level1Division == null)
                 return null;
-            string queryUrl = Energy.Base.Url.Make(baseUrl.ToString(), null, null, null, Energy.Base.Url.Combine(baseUrl.Path, "pow", geoNamespace, level1Division.Id , "skr.json"), null, null);
+            string queryUrl = Energy.Base.Url.Make(geoPortalClient.BaseUrl.ToString(), null, null, null, Energy.Base.Url.Combine(geoPortalClient.BaseUrl.Path, "pow", geoPortalClient.GeoNamespace, level1Division.Id , "skr.json"), null, null);
             var response = Energy.Core.Web.Get(queryUrl);
             if (response == null)
                 return null;
             if (response.StatusCode != (int)HttpStatusCode.OK)
                 return null;
             JObject responseJson = JsonConvert.DeserializeObject<JObject>(response.Body);
-            var jednAdmList = responseJson.SelectToken("jednAdms").Children().Select(t => t.SelectToken("jednAdm").ToObject<Entity.GeoPortal.JednAdm>()).ToList();
+            var jednAdmList = responseJson.SelectToken("jednAdms").Children().Select(t => t.SelectToken("jednAdm").ToObject<JednAdm>()).ToList();
             return jednAdmList.Select(t => new Level2Division() { Id = t.powIIPId, Code = countryCode + t.powIdTeryt, Name = t.powNazwa }).ToList();
         }
 
@@ -181,19 +134,59 @@ namespace TerritoryData.Lib.Repository
             var level2Division = GetLevel2Division(level2DivisionCode);
             if (level2Division == null)
                 return null;
-            string queryUrl = Energy.Base.Url.Make(baseUrl.ToString(), null, null, null, Energy.Base.Url.Combine(baseUrl.Path, "gmi", geoNamespace, level2Division.Id, "skr.json"), null, null);
+            string queryUrl = Energy.Base.Url.Make(geoPortalClient.BaseUrl.ToString(), null, null, null, Energy.Base.Url.Combine(geoPortalClient.BaseUrl.Path, "gmi", geoPortalClient.GeoNamespace, level2Division.Id, "skr.json"), null, null);
             var response = Energy.Core.Web.Get(queryUrl);
             if (response == null)
                 return null;
             if (response.StatusCode != (int)HttpStatusCode.OK)
                 return null;
             JObject responseJson = JsonConvert.DeserializeObject<JObject>(response.Body);
-            var jednAdmList = responseJson.SelectToken("jednAdms").Children().Select(t => t.SelectToken("jednAdm").ToObject<Entity.GeoPortal.JednAdm>()).ToList();
+            var jednAdmList = responseJson.SelectToken("jednAdms").Children().Select(t => t.SelectToken("jednAdm").ToObject<JednAdm>()).ToList();
             return jednAdmList.Select(t => new Level3Division() { Id = t.gmIIPId, Code = countryCode + t.gmIdTeryt, Name = t.gmNazwa }).ToList();
+        }
+
+        public City GetCity(string level3DivisionCode, string cityCode)
+        {
+            if (string.IsNullOrWhiteSpace(cityCode))
+                return null;
+            //TODO: what is cityCode length? - 7?
+            if (cityCode.Length != 7)
+                throw new Exception("Invalid cityCode length.");
+            var cityList = GetCityList(level3DivisionCode);
+            if (cityList == null)
+                return null;
+            return cityList.Where(d => d.Code == cityCode).FirstOrDefault();
+        }
+
+        public List<City> GetCityList(string level3DivisionCode)
+        {
+            // http://mapy.geoportal.gov.pl/wss/service/SLN/guest/sln/miejsc/PL.PZGIK.200/a6d40903-62e3-4843-8d9e-bfd4667c9765/skr.json
+            if (string.IsNullOrWhiteSpace(level3DivisionCode))
+                return null;
+            if (level3DivisionCode.Length != 9)
+                throw new Exception("Invalid level3DivisionCode length.");
+            string countryCode = level3DivisionCode.Substring(0, 2);
+            // For foreign countries return empty list
+            if (countryCode.ToUpper() != "PL")
+                return new List<City>();
+            var level3Division = GetLevel3Division(level3DivisionCode);
+            if (level3Division == null)
+                return null;
+            string queryUrl = Energy.Base.Url.Make(geoPortalClient.BaseUrl.ToString(), null, null, null, Energy.Base.Url.Combine(geoPortalClient.BaseUrl.Path, "miejsc", geoPortalClient.GeoNamespace, level3Division.Id, "skr.json"), null, null);
+            var response = Energy.Core.Web.Get(queryUrl);
+            if (response == null)
+                return null;
+            if (response.StatusCode != (int)HttpStatusCode.OK)
+                return null;
+            JObject responseJson = JsonConvert.DeserializeObject<JObject>(response.Body);
+            var cityList = responseJson.SelectToken("miejscowosci").Children().Select(t => t.SelectToken("miejscowosc").ToObject<Miejscowosc>()).ToList();
+            return cityList.Select(t => new City() { Id = t.miejscIIPId, Code = t.miejscIdTeryt, Name = t.miejscNazwa }).ToList();
         }
 
         public Street GetStreet(string streetCode)
         {
+            // ulice
+            // http://mapy.geoportal.gov.pl/wss/service/SLN/guest/sln/adr/ul/PL.PZGIK.200/5ecae524-66c9-465d-8677-29e5ab0744a8/skr.json
             throw new NotImplementedException();
         }
 
@@ -201,5 +194,17 @@ namespace TerritoryData.Lib.Repository
         {
             throw new NotImplementedException();
         }
+
+        public Address GetAddress(string addressCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Address> GetAddressList(SearchParams searchParams)
+        {
+            // http://mapy.geoportal.gov.pl/wss/service/SLN/guest/sln/adr/miejsc/PL.PZGIK.200/4c52f220-87d7-41e3-ae03-6a25f1b20e00/skr.json
+            throw new NotImplementedException();
+        }
+
     }
 }

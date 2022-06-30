@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TerritoryData.Web", "Web\Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TerritoryData.Tests", "Tests\TerritoryData.Tests.csproj", "{34C551EA-EA92-4D01-A130-5B77B8697E24}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C5BB3901-B35D-4368-8EC2-7E9F289A9635}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{34C551EA-EA92-4D01-A130-5B77B8697E24} = {C5BB3901-B35D-4368-8EC2-7E9F289A9635}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19D52A7B-92CD-4A20-A8CD-52E7912953F1}

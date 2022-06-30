@@ -1,7 +1,7 @@
 ﻿using FakeItEasy;
 using NUnit.Framework;
 using Shouldly;
-using TerritoryData.Lib.Repository;
+using TerritoryData.Lib.DB.Repository;
 
 namespace TerritoryData.Tests.Lib.Repository
 {
@@ -172,6 +172,24 @@ namespace TerritoryData.Tests.Lib.Repository
             int expectedResult = (int)((TestCaseParams)testCase).ExpectedResult;
             var cityList = _repository.GetCityList(level3DivisionCode);
             cityList.Count.ShouldBe(expectedResult);
+        }
+
+        private readonly static object[] CitySource = new object[]
+        {
+            new TestCaseParams() { Arg = new string[] { "PL0201011", "sdfd" }, ExpectedResult = "Suwałki" },
+            new TestCaseParams() { Arg = new string[] { "PL0201011", "sdfd" }, ExpectedResult = "Suwałki" },
+        };
+
+        [Test]
+        [TestCaseSource(nameof(CitySource))]
+        public void GetCity_Should_Return_Correct_Elements_Counts(object testCase)
+        {
+            string[] arg = (string[])((TestCaseParams)testCase).Arg;
+            string level3DivisionCode = arg[0];
+            string cityCode = arg[1];
+            string expectedResult = (string)((TestCaseParams)testCase).ExpectedResult;
+            var cityList = _repository.GetCity(level3DivisionCode, cityCode);
+            cityList.Name.ShouldBe(expectedResult);
         }
 
     }

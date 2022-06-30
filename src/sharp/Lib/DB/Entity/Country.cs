@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace TerritoryData.Lib.Entity.DB
+namespace TerritoryData.Lib.DB.Entity
 {
     /// <summary>
     /// Country representation (ISO 3166-1 alpha-2 standard)

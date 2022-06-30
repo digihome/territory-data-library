@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using TerritoryData.Lib.Entity.DB;
+using TerritoryData.Lib.Web.Entity;
 
-namespace Module.TerritoryData.Web.Model
+namespace TerritoryData.Lib.Web.Model
 {
     public class CountryListResponse
     {
