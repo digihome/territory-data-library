@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TerritoryData.Lib.DB.Entity;
 
-namespace TerritoryData.Lib.DB.Interface
+namespace TerritoryData.Lib.Interface.DB.Repository
 {
     public interface ITerritoryDataRepository
     {

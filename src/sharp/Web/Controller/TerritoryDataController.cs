@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Module.TerritoryData.Web.Model;
-using TerritoryData.Lib.Web.Interface;
-using TerritoryData.Lib.Web.Model;
 using System.Linq;
+using TerritoryData.Lib.Interface.DB.Repository;
+using TerritoryData.Lib.Interface.Web.Controller;
 using TerritoryData.Lib.Web.Entity;
-using TerritoryData.Lib.DB.Interface;
+using TerritoryData.Lib.Web.Model;
 
-namespace Module.TerritoryData.Web.Controller
+namespace TerritoryData.Web.Controller
 {
     [Route("api/[controller]")]
     [ApiController]

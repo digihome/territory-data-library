@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using Energy.Base;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 using System.Net;
-using TerritoryData.Lib.Web.Interface;
+using TerritoryData.Lib.Interface.Web.Client;
 using TerritoryData.Lib.Web.Model;
 
 namespace TerritoryData.Lib.Web.Client

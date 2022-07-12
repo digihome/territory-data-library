@@ -10,7 +10,14 @@ using TerritoryData.Lib.Web.Client;
 
 namespace TerritoryData.Lib.DB.Repository
 {
-    public class GeoPortalRepository : Interface.ITerritoryDataRepository
+
+    /* Unmerged change from project 'TerritoryData.Lib (net6.0)'
+    Before:
+        public class GeoPortalRepository : Interface.ITerritoryDataRepository
+    After:
+        public class GeoPortalRepository : ITerritoryDataRepository
+    */
+    public class GeoPortalRepository : Lib.Interface.DB.Repository.ITerritoryDataRepository
     {
         private readonly GeoPortalClient geoPortalClient;
 

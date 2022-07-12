@@ -1,6 +1,15 @@
-﻿namespace TerritoryData.Lib.Web.Entity
+﻿using System.Text.Json.Serialization;
+
+namespace TerritoryData.Lib.Web.Entity
 {
-    public class Country : DB.Entity.Country // For now same as DB structure
+    public class Country
     {
+        [JsonPropertyName("id")]
+        public string Id { get; set; }
+        [JsonPropertyName("code")]
+        public string Code { get; set; }
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+
     }
 }

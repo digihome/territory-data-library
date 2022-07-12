@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using TerritoryData.Lib.DB.Entity;
 
-namespace Module.TerritoryData.Web.Model
+namespace TerritoryData.Lib.Web.Model
 {
     public class CountryResponse
     {
+        [JsonPropertyName("country")]
         public Country Country { get; set; }
     }
 }
